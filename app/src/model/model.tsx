@@ -24,20 +24,16 @@ export const Model = (): JSX.Element => {
         if (element.type !== 'Mesh') return;
         const meshElement = element as THREE.Mesh;
 
-        // Extract RGB color from material
         const material = meshElement.material as THREE.MeshStandardMaterial;
-        const color = material.color; // THREE.Color object
+        const color = material.color;
 
-        // Convert THREE.Color to RGB integer format
         const r = Math.round(color.r * 255);
         const g = Math.round(color.g * 255);
         const b = Math.round(color.b * 255);
         const rgbString = `${r}-${g}-${b}`;
 
-        // Lookup entityId using rgbString
         const entityId = colorMap[rgbString];
 
-        // Use a fallback color if the entity isn't found
         const finalColor = entityId
           ? `rgb(${r}, ${g}, ${b})`
           : 'rgb(120, 120, 120)';
