@@ -1,0 +1,1190 @@
+{
+  "scene": {
+    "uuid": "string",
+    "name": "string",
+    "type": "string",
+    "parent": "object",
+    "children": "Array(1)",
+    "up": {
+      "x": "number",
+      "y": "number",
+      "z": "number",
+      "isVector3": "boolean",
+      "setEulerFromRotationMatrix": "function",
+      "setEulerFromQuaternion": "function",
+      "getPositionFromMatrix": "function",
+      "getScaleFromMatrix": "function",
+      "getColumnFromMatrix": "function",
+      "applyProjection": "function",
+      "fromAttribute": "function",
+      "distanceToManhattan": "function",
+      "lengthManhattan": "function"
+    },
+    "position": {
+      "x": "number",
+      "y": "number",
+      "z": "number",
+      "isVector3": "boolean",
+      "setEulerFromRotationMatrix": "function",
+      "setEulerFromQuaternion": "function",
+      "getPositionFromMatrix": "function",
+      "getScaleFromMatrix": "function",
+      "getColumnFromMatrix": "function",
+      "applyProjection": "function",
+      "fromAttribute": "function",
+      "distanceToManhattan": "function",
+      "lengthManhattan": "function"
+    },
+    "rotation": {
+      "_x": "number",
+      "_y": "number",
+      "_z": "number",
+      "_order": "string",
+      "_onChangeCallback": "function",
+      "isEuler": "boolean",
+      "toVector3": "function"
+    },
+    "quaternion": {
+      "_x": "number",
+      "_y": "number",
+      "_z": "number",
+      "_w": "number",
+      "_onChangeCallback": "function",
+      "isQuaternion": "boolean",
+      "multiplyVector3": "function",
+      "inverse": "function"
+    },
+    "scale": {
+      "x": "number",
+      "y": "number",
+      "z": "number",
+      "isVector3": "boolean",
+      "setEulerFromRotationMatrix": "function",
+      "setEulerFromQuaternion": "function",
+      "getPositionFromMatrix": "function",
+      "getScaleFromMatrix": "function",
+      "getColumnFromMatrix": "function",
+      "applyProjection": "function",
+      "fromAttribute": "function",
+      "distanceToManhattan": "function",
+      "lengthManhattan": "function"
+    },
+    "matrix": {
+      "elements": "Array(16)",
+      "isMatrix4": "boolean",
+      "extractPosition": "function",
+      "flattenToArrayOffset": "function",
+      "getPosition": "function",
+      "setRotationFromQuaternion": "function",
+      "multiplyToArray": "function",
+      "multiplyVector3": "function",
+      "multiplyVector4": "function",
+      "multiplyVector3Array": "function",
+      "rotateAxis": "function",
+      "crossVector": "function",
+      "translate": "function",
+      "rotateX": "function",
+      "rotateY": "function",
+      "rotateZ": "function",
+      "rotateByAxis": "function",
+      "applyToBufferAttribute": "function",
+      "applyToVector3Array": "function",
+      "makeFrustum": "function",
+      "getInverse": "function"
+    },
+    "matrixWorld": {
+      "elements": "Array(16)",
+      "isMatrix4": "boolean",
+      "extractPosition": "function",
+      "flattenToArrayOffset": "function",
+      "getPosition": "function",
+      "setRotationFromQuaternion": "function",
+      "multiplyToArray": "function",
+      "multiplyVector3": "function",
+      "multiplyVector4": "function",
+      "multiplyVector3Array": "function",
+      "rotateAxis": "function",
+      "crossVector": "function",
+      "translate": "function",
+      "rotateX": "function",
+      "rotateY": "function",
+      "rotateZ": "function",
+      "rotateByAxis": "function",
+      "applyToBufferAttribute": "function",
+      "applyToVector3Array": "function",
+      "makeFrustum": "function",
+      "getInverse": "function"
+    },
+    "matrixAutoUpdate": "boolean",
+    "matrixWorldNeedsUpdate": "boolean",
+    "layers": {
+      "mask": "number"
+    },
+    "visible": "boolean",
+    "castShadow": "boolean",
+    "receiveShadow": "boolean",
+    "frustumCulled": "boolean",
+    "renderOrder": "number",
+    "animations": "Array(0)",
+    "userData": {},
+    "isGroup": "boolean",
+    "isObject3D": "boolean",
+    "getChildByName": "function",
+    "renderDepth": "function",
+    "translate": "function",
+    "getWorldRotation": "function",
+    "applyMatrix": "function"
+  },
+  "scenes": "Array(1)",
+  "animations": "Array(0)",
+  "cameras": "Array(0)",
+  "asset": {
+    "generator": "string",
+    "version": "string"
+  },
+  "parser": {
+    "json": {
+      "accessors": "Array(462)",
+      "asset": "[Circular]",
+      "bufferViews": "Array(3)",
+      "buffers": "Array(1)",
+      "materials": "Array(154)",
+      "meshes": "Array(1)",
+      "nodes": "Array(1)",
+      "scene": "number",
+      "scenes": "Array(1)"
+    },
+    "extensions": {
+      "KHR_binary_glTF": {
+        "name": "string",
+        "content": "string",
+        "body": "[Max Depth]",
+        "header": "[Max Depth]"
+      },
+      "KHR_materials_clearcoat": "boolean",
+      "KHR_texture_basisu": "boolean",
+      "EXT_texture_webp": "boolean",
+      "KHR_materials_sheen": "boolean",
+      "KHR_materials_transmission": "boolean",
+      "KHR_materials_volume": "boolean",
+      "KHR_materials_ior": "boolean",
+      "KHR_materials_specular": "boolean",
+      "KHR_lights_punctual": "boolean",
+      "EXT_meshopt_compression": "boolean"
+    },
+    "plugins": {
+      "KHR_materials_clearcoat": {
+        "parser": "[Circular]",
+        "name": "string"
+      },
+      "KHR_texture_basisu": {
+        "parser": "[Circular]",
+        "name": "string"
+      },
+      "EXT_texture_webp": {
+        "parser": "[Circular]",
+        "name": "string",
+        "isSupported": "object"
+      },
+      "KHR_materials_sheen": {
+        "parser": "[Circular]",
+        "name": "string"
+      },
+      "KHR_materials_transmission": {
+        "parser": "[Circular]",
+        "name": "string"
+      },
+      "KHR_materials_volume": {
+        "parser": "[Circular]",
+        "name": "string"
+      },
+      "KHR_materials_ior": {
+        "parser": "[Circular]",
+        "name": "string"
+      },
+      "KHR_materials_specular": {
+        "parser": "[Circular]",
+        "name": "string"
+      },
+      "KHR_lights_punctual": {
+        "parser": "[Circular]",
+        "name": "string",
+        "cache": "[Max Depth]"
+      },
+      "EXT_meshopt_compression": {
+        "name": "string",
+        "parser": "[Circular]"
+      }
+    },
+    "options": {
+      "path": "string",
+      "crossOrigin": "string",
+      "requestHeader": {},
+      "manager": {
+        "onStart": "undefined",
+        "onLoad": "undefined",
+        "onProgress": "undefined",
+        "onError": "undefined",
+        "itemStart": "function",
+        "itemEnd": "function",
+        "itemError": "function",
+        "resolveURL": "function",
+        "setURLModifier": "function",
+        "addHandler": "function",
+        "removeHandler": "function",
+        "getHandler": "function"
+      },
+      "ktx2Loader": "object",
+      "meshoptDecoder": "object"
+    },
+    "cache": {
+      "get": "function",
+      "add": "function",
+      "remove": "function",
+      "removeAll": "function"
+    },
+    "associations": {},
+    "primitiveCache": {
+      "308:NORMAL:154;POSITION:0;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "309:NORMAL:155;POSITION:1;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "310:NORMAL:156;POSITION:2;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "311:NORMAL:157;POSITION:3;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "312:NORMAL:158;POSITION:4;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "313:NORMAL:159;POSITION:5;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "314:NORMAL:160;POSITION:6;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "315:NORMAL:161;POSITION:7;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "316:NORMAL:162;POSITION:8;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "317:NORMAL:163;POSITION:9;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "318:NORMAL:164;POSITION:10;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "319:NORMAL:165;POSITION:11;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "320:NORMAL:166;POSITION:12;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "321:NORMAL:167;POSITION:13;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "322:NORMAL:168;POSITION:14;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "323:NORMAL:169;POSITION:15;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "324:NORMAL:170;POSITION:16;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "325:NORMAL:171;POSITION:17;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "326:NORMAL:172;POSITION:18;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "327:NORMAL:173;POSITION:19;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "328:NORMAL:174;POSITION:20;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "329:NORMAL:175;POSITION:21;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "330:NORMAL:176;POSITION:22;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "331:NORMAL:177;POSITION:23;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "332:NORMAL:178;POSITION:24;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "333:NORMAL:179;POSITION:25;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "334:NORMAL:180;POSITION:26;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "335:NORMAL:181;POSITION:27;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "336:NORMAL:182;POSITION:28;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "337:NORMAL:183;POSITION:29;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "338:NORMAL:184;POSITION:30;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "339:NORMAL:185;POSITION:31;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "340:NORMAL:186;POSITION:32;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "341:NORMAL:187;POSITION:33;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "342:NORMAL:188;POSITION:34;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "343:NORMAL:189;POSITION:35;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "344:NORMAL:190;POSITION:36;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "345:NORMAL:191;POSITION:37;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "346:NORMAL:192;POSITION:38;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "347:NORMAL:193;POSITION:39;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "348:NORMAL:194;POSITION:40;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "349:NORMAL:195;POSITION:41;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "350:NORMAL:196;POSITION:42;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "351:NORMAL:197;POSITION:43;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "352:NORMAL:198;POSITION:44;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "353:NORMAL:199;POSITION:45;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "354:NORMAL:200;POSITION:46;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "355:NORMAL:201;POSITION:47;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "356:NORMAL:202;POSITION:48;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "357:NORMAL:203;POSITION:49;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "358:NORMAL:204;POSITION:50;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "359:NORMAL:205;POSITION:51;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "360:NORMAL:206;POSITION:52;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "361:NORMAL:207;POSITION:53;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "362:NORMAL:208;POSITION:54;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "363:NORMAL:209;POSITION:55;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "364:NORMAL:210;POSITION:56;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "365:NORMAL:211;POSITION:57;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "366:NORMAL:212;POSITION:58;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "367:NORMAL:213;POSITION:59;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "368:NORMAL:214;POSITION:60;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "369:NORMAL:215;POSITION:61;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "370:NORMAL:216;POSITION:62;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "371:NORMAL:217;POSITION:63;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "372:NORMAL:218;POSITION:64;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "373:NORMAL:219;POSITION:65;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "374:NORMAL:220;POSITION:66;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "375:NORMAL:221;POSITION:67;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "376:NORMAL:222;POSITION:68;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "377:NORMAL:223;POSITION:69;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "378:NORMAL:224;POSITION:70;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "379:NORMAL:225;POSITION:71;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "380:NORMAL:226;POSITION:72;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "381:NORMAL:227;POSITION:73;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "382:NORMAL:228;POSITION:74;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "383:NORMAL:229;POSITION:75;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "384:NORMAL:230;POSITION:76;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "385:NORMAL:231;POSITION:77;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "386:NORMAL:232;POSITION:78;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "387:NORMAL:233;POSITION:79;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "388:NORMAL:234;POSITION:80;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "389:NORMAL:235;POSITION:81;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "390:NORMAL:236;POSITION:82;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "391:NORMAL:237;POSITION:83;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "392:NORMAL:238;POSITION:84;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "393:NORMAL:239;POSITION:85;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "394:NORMAL:240;POSITION:86;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "395:NORMAL:241;POSITION:87;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "396:NORMAL:242;POSITION:88;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "397:NORMAL:243;POSITION:89;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "398:NORMAL:244;POSITION:90;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "399:NORMAL:245;POSITION:91;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "400:NORMAL:246;POSITION:92;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "401:NORMAL:247;POSITION:93;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "402:NORMAL:248;POSITION:94;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "403:NORMAL:249;POSITION:95;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "404:NORMAL:250;POSITION:96;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "405:NORMAL:251;POSITION:97;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "406:NORMAL:252;POSITION:98;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "407:NORMAL:253;POSITION:99;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "408:NORMAL:254;POSITION:100;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "409:NORMAL:255;POSITION:101;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "410:NORMAL:256;POSITION:102;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "411:NORMAL:257;POSITION:103;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "412:NORMAL:258;POSITION:104;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "413:NORMAL:259;POSITION:105;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "414:NORMAL:260;POSITION:106;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "415:NORMAL:261;POSITION:107;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "416:NORMAL:262;POSITION:108;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "417:NORMAL:263;POSITION:109;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "418:NORMAL:264;POSITION:110;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "419:NORMAL:265;POSITION:111;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "420:NORMAL:266;POSITION:112;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "421:NORMAL:267;POSITION:113;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "422:NORMAL:268;POSITION:114;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "423:NORMAL:269;POSITION:115;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "424:NORMAL:270;POSITION:116;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "425:NORMAL:271;POSITION:117;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "426:NORMAL:272;POSITION:118;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "427:NORMAL:273;POSITION:119;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "428:NORMAL:274;POSITION:120;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "429:NORMAL:275;POSITION:121;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "430:NORMAL:276;POSITION:122;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "431:NORMAL:277;POSITION:123;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "432:NORMAL:278;POSITION:124;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "433:NORMAL:279;POSITION:125;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "434:NORMAL:280;POSITION:126;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "435:NORMAL:281;POSITION:127;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "436:NORMAL:282;POSITION:128;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "437:NORMAL:283;POSITION:129;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "438:NORMAL:284;POSITION:130;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "439:NORMAL:285;POSITION:131;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "440:NORMAL:286;POSITION:132;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "441:NORMAL:287;POSITION:133;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "442:NORMAL:288;POSITION:134;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "443:NORMAL:289;POSITION:135;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "444:NORMAL:290;POSITION:136;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "445:NORMAL:291;POSITION:137;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "446:NORMAL:292;POSITION:138;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "447:NORMAL:293;POSITION:139;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "448:NORMAL:294;POSITION:140;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "449:NORMAL:295;POSITION:141;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "450:NORMAL:296;POSITION:142;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "451:NORMAL:297;POSITION:143;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "452:NORMAL:298;POSITION:144;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "453:NORMAL:299;POSITION:145;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "454:NORMAL:300;POSITION:146;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "455:NORMAL:301;POSITION:147;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "456:NORMAL:302;POSITION:148;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "457:NORMAL:303;POSITION:149;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "458:NORMAL:304;POSITION:150;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "459:NORMAL:305;POSITION:151;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "460:NORMAL:306;POSITION:152;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      },
+      "461:NORMAL:307;POSITION:153;:4": {
+        "primitive": "[Max Depth]",
+        "promise": "[Max Depth]"
+      }
+    },
+    "meshCache": {
+      "refs": {
+        "0": "number"
+      },
+      "uses": {
+        "0": "number"
+      }
+    },
+    "cameraCache": {
+      "refs": {},
+      "uses": {}
+    },
+    "lightCache": {
+      "refs": {},
+      "uses": {}
+    },
+    "textureCache": {},
+    "nodeNamesUsed": {
+      "Product_1": "boolean",
+      "Product_1_1": "boolean",
+      "Product_1_2": "boolean",
+      "Product_1_3": "boolean",
+      "Product_1_4": "boolean",
+      "Product_1_5": "boolean",
+      "Product_1_6": "boolean",
+      "Product_1_7": "boolean",
+      "Product_1_8": "boolean",
+      "Product_1_9": "boolean",
+      "Product_1_10": "boolean",
+      "Product_1_11": "boolean",
+      "Product_1_12": "boolean",
+      "Product_1_13": "boolean",
+      "Product_1_14": "boolean",
+      "Product_1_15": "boolean",
+      "Product_1_16": "boolean",
+      "Product_1_17": "boolean",
+      "Product_1_18": "boolean",
+      "Product_1_19": "boolean",
+      "Product_1_20": "boolean",
+      "Product_1_21": "boolean",
+      "Product_1_22": "boolean",
+      "Product_1_23": "boolean",
+      "Product_1_24": "boolean",
+      "Product_1_25": "boolean",
+      "Product_1_26": "boolean",
+      "Product_1_27": "boolean",
+      "Product_1_28": "boolean",
+      "Product_1_29": "boolean",
+      "Product_1_30": "boolean",
+      "Product_1_31": "boolean",
+      "Product_1_32": "boolean",
+      "Product_1_33": "boolean",
+      "Product_1_34": "boolean",
+      "Product_1_35": "boolean",
+      "Product_1_36": "boolean",
+      "Product_1_37": "boolean",
+      "Product_1_38": "boolean",
+      "Product_1_39": "boolean",
+      "Product_1_40": "boolean",
+      "Product_1_41": "boolean",
+      "Product_1_42": "boolean",
+      "Product_1_43": "boolean",
+      "Product_1_44": "boolean",
+      "Product_1_45": "boolean",
+      "Product_1_46": "boolean",
+      "Product_1_47": "boolean",
+      "Product_1_48": "boolean",
+      "Product_1_49": "boolean",
+      "Product_1_50": "boolean",
+      "Product_1_51": "boolean",
+      "Product_1_52": "boolean",
+      "Product_1_53": "boolean",
+      "Product_1_54": "boolean",
+      "Product_1_55": "boolean",
+      "Product_1_56": "boolean",
+      "Product_1_57": "boolean",
+      "Product_1_58": "boolean",
+      "Product_1_59": "boolean",
+      "Product_1_60": "boolean",
+      "Product_1_61": "boolean",
+      "Product_1_62": "boolean",
+      "Product_1_63": "boolean",
+      "Product_1_64": "boolean",
+      "Product_1_65": "boolean",
+      "Product_1_66": "boolean",
+      "Product_1_67": "boolean",
+      "Product_1_68": "boolean",
+      "Product_1_69": "boolean",
+      "Product_1_70": "boolean",
+      "Product_1_71": "boolean",
+      "Product_1_72": "boolean",
+      "Product_1_73": "boolean",
+      "Product_1_74": "boolean",
+      "Product_1_75": "boolean",
+      "Product_1_76": "boolean",
+      "Product_1_77": "boolean",
+      "Product_1_78": "boolean",
+      "Product_1_79": "boolean",
+      "Product_1_80": "boolean",
+      "Product_1_81": "boolean",
+      "Product_1_82": "boolean",
+      "Product_1_83": "boolean",
+      "Product_1_84": "boolean",
+      "Product_1_85": "boolean",
+      "Product_1_86": "boolean",
+      "Product_1_87": "boolean",
+      "Product_1_88": "boolean",
+      "Product_1_89": "boolean",
+      "Product_1_90": "boolean",
+      "Product_1_91": "boolean",
+      "Product_1_92": "boolean",
+      "Product_1_93": "boolean",
+      "Product_1_94": "boolean",
+      "Product_1_95": "boolean",
+      "Product_1_96": "boolean",
+      "Product_1_97": "boolean",
+      "Product_1_98": "boolean",
+      "Product_1_99": "boolean",
+      "Product_1_100": "boolean",
+      "Product_1_101": "boolean",
+      "Product_1_102": "boolean",
+      "Product_1_103": "boolean",
+      "Product_1_104": "boolean",
+      "Product_1_105": "boolean",
+      "Product_1_106": "boolean",
+      "Product_1_107": "boolean",
+      "Product_1_108": "boolean",
+      "Product_1_109": "boolean",
+      "Product_1_110": "boolean",
+      "Product_1_111": "boolean",
+      "Product_1_112": "boolean",
+      "Product_1_113": "boolean",
+      "Product_1_114": "boolean",
+      "Product_1_115": "boolean",
+      "Product_1_116": "boolean",
+      "Product_1_117": "boolean",
+      "Product_1_118": "boolean",
+      "Product_1_119": "boolean",
+      "Product_1_120": "boolean",
+      "Product_1_121": "boolean",
+      "Product_1_122": "boolean",
+      "Product_1_123": "boolean",
+      "Product_1_124": "boolean",
+      "Product_1_125": "boolean",
+      "Product_1_126": "boolean",
+      "Product_1_127": "boolean",
+      "Product_1_128": "boolean",
+      "Product_1_129": "boolean",
+      "Product_1_130": "boolean",
+      "Product_1_131": "boolean",
+      "Product_1_132": "boolean",
+      "Product_1_133": "boolean",
+      "Product_1_134": "boolean",
+      "Product_1_135": "boolean",
+      "Product_1_136": "boolean",
+      "Product_1_137": "boolean",
+      "Product_1_138": "boolean",
+      "Product_1_139": "boolean",
+      "Product_1_140": "boolean",
+      "Product_1_141": "boolean",
+      "Product_1_142": "boolean",
+      "Product_1_143": "boolean",
+      "Product_1_144": "boolean",
+      "Product_1_145": "boolean",
+      "Product_1_146": "boolean",
+      "Product_1_147": "boolean",
+      "Product_1_148": "boolean",
+      "Product_1_149": "boolean",
+      "Product_1_150": "boolean",
+      "Product_1_151": "boolean",
+      "Product_1_152": "boolean",
+      "Product_1_153": "boolean",
+      "Product_1_154": "boolean"
+    },
+    "textureLoader": {
+      "manager": "[Circular]",
+      "crossOrigin": "string",
+      "withCredentials": "boolean",
+      "path": "string",
+      "resourcePath": "string",
+      "requestHeader": "[Circular]",
+      "options": {
+        "premultiplyAlpha": "string"
+      },
+      "isImageBitmapLoader": "boolean",
+      "extractUrlBase": "function"
+    },
+    "fileLoader": {
+      "manager": "[Circular]",
+      "crossOrigin": "string",
+      "withCredentials": "boolean",
+      "path": "string",
+      "resourcePath": "string",
+      "requestHeader": "[Circular]",
+      "responseType": "string",
+      "extractUrlBase": "function"
+    }
+  },
+  "userData": {}
+}
+
+{
+    "metadata": {
+        "version": 4.5,
+        "type": "Object",
+        "generator": "Object3D.toJSON"
+    },
+    "geometries": [
+        {
+            "uuid": "9aec2b09-9c9e-48e9-a1ce-e0d1e04ff3c8",
+            "type": "BufferGeometry",
+            "data": {
+                "attributes": {
+                    "normal": {
+                        "itemSize": 3,
+                        "type": "Float32Array",
+                        "array": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0
+                        ],
+                        "normalized": false
+                    },
+                    "position": {
+                        "itemSize": 3,
+                        "type": "Float32Array",
+                        "array": [
+                            -81.05467987060547,
+                            -40,
+                            -97.06651306152344,
+                            -81.05467987060547,
+                            -40,
+                            -137.06651306152344,
+                            -81.05467987060547,
+                            -3,
+                            -137.06651306152344,
+                            -81.05467987060547,
+                            -3,
+                            -97.06651306152344
+                        ],
+                        "normalized": false
+                    }
+                },
+                "index": {
+                    "type": "Uint16Array",
+                    "array": [
+                        2,
+                        0,
+                        1,
+                        2,
+                        3,
+                        0
+                    ]
+                },
+                "boundingSphere": {
+                    "center": [
+                        -81.05467915855,
+                        -21.5,
+                        -117.066509609794
+                    ],
+                    "radius": 27.244265451647614
+                }
+            }
+        }
+    ],
+    "materials": [
+        {
+            "uuid": "10736615-d0af-4759-be67-1cf3425c8b8b",
+            "type": "MeshStandardMaterial",
+            "name": "mat_0",
+            "color": 15423182,
+            "roughness": 1,
+            "metalness": 1,
+            "emissive": 0,
+            "envMapIntensity": 1,
+            "side": 2,
+            "depthFunc": 3,
+            "depthTest": true,
+            "depthWrite": true,
+            "colorWrite": true,
+            "stencilWrite": false,
+            "stencilWriteMask": 255,
+            "stencilFunc": 519,
+            "stencilRef": 0,
+            "stencilFuncMask": 255,
+            "stencilFail": 7680,
+            "stencilZFail": 7680,
+            "stencilZPass": 7680
+        }
+    ],
+    "object": {
+        "uuid": "8d27b99b-6392-4036-99ba-39810fede4a4",
+        "type": "Mesh",
+        "name": "Product_1_1",
+        "layers": 1,
+        "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+        ],
+        "geometry": "9aec2b09-9c9e-48e9-a1ce-e0d1e04ff3c8",
+        "material": "10736615-d0af-4759-be67-1cf3425c8b8b"
+    }
+}
