@@ -13,13 +13,46 @@ interface ModelEntity {
 
 import colorMap from '../../../data_dump/rgb_id_to_entity_id_map.json';
 
+import adjacencyGraph from '../../../data_dump/adjacency_graph.json';
+import edgeMetadata from '../../../data_dump/adjacency_graph_edge_metadata.json';
+
+/**
+ * Filters the adjacency graph to only include concave connections.
+ */
+function buildConcaveAdjacencyGraph(): Record<string, string[]> {
+  const concaveGraph: Record<string, string[]> = {};
+
+  for (const entityId in adjacencyGraph) {
+    concaveGraph[entityId] = [];
+
+    for (const neighbor of adjacencyGraph[entityId]) {
+      const edgeKey1 = `${entityId}-${neighbor}`;
+      const edgeKey2 = `${neighbor}-${entityId}`;
+
+      // Check if the edge is marked as "concave" in the metadata
+      if (
+        (edgeMetadata[edgeKey1] &&
+          edgeMetadata[edgeKey1].includes('concave')) ||
+        (edgeMetadata[edgeKey2] && edgeMetadata[edgeKey2].includes('concave'))
+      ) {
+        concaveGraph[entityId].push(neighbor);
+      }
+    }
+  }
+
+  return concaveGraph;
+}
+
+// ✅ Run once and store the filtered concave adjacency graph
+
 export const Model = (): JSX.Element => {
   const [modelEnts, setModelEnts] = useState<ModelEntity[]>([]);
 
   useEffect(() => {
     new GLTFLoader().load('./colored_glb.glb', (gltf) => {
       const newModelEntities: ModelEntity[] = [];
-
+      const concaveAdjacencyGraph = buildConcaveAdjacencyGraph();
+      console.log(concaveAdjacencyGraph); // Debugging: Check if it looks right
       gltf.scene.traverse((element) => {
         if (element.type !== 'Mesh') return;
         const meshElement = element as THREE.Mesh;
