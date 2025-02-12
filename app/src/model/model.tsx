@@ -12,13 +12,9 @@ interface ModelEntity {
 }
 
 import colorMap from '../../../data_dump/rgb_id_to_entity_id_map.json';
-
 import adjacencyGraph from '../../../data_dump/adjacency_graph.json';
 import edgeMetadata from '../../../data_dump/adjacency_graph_edge_metadata.json';
 
-/**
- * Filters the adjacency graph to only include concave connections.
- */
 function buildConcaveAdjacencyGraph(): Record<string, string[]> {
   const concaveGraph: Record<string, string[]> = {};
 
@@ -29,7 +25,6 @@ function buildConcaveAdjacencyGraph(): Record<string, string[]> {
       const edgeKey1 = `${entityId}-${neighbor}`;
       const edgeKey2 = `${neighbor}-${entityId}`;
 
-      // Check if the edge is marked as "concave" in the metadata
       if (
         (edgeMetadata[edgeKey1] &&
           edgeMetadata[edgeKey1].includes('concave')) ||
@@ -43,16 +38,51 @@ function buildConcaveAdjacencyGraph(): Record<string, string[]> {
   return concaveGraph;
 }
 
-// ✅ Run once and store the filtered concave adjacency graph
+function detectPockets(concaveGraph: Record<string, string[]>): string[][] {
+  const visited = new Set<string>();
+  const pockets: string[][] = [];
+
+  for (const entity in concaveGraph) {
+    if (!visited.has(entity)) {
+      const queue = [entity];
+      const pocket = [];
+
+      while (queue.length) {
+        const current = queue.shift()!;
+        if (visited.has(current)) continue;
+        visited.add(current);
+        pocket.push(current);
+        queue.push(...concaveGraph[current].filter((n) => !visited.has(n)));
+      }
+
+      pockets.push(pocket);
+    }
+  }
+
+  return pockets;
+}
 
 export const Model = (): JSX.Element => {
   const [modelEnts, setModelEnts] = useState<ModelEntity[]>([]);
+  const [showPockets, setShowPockets] = useState(true);
 
   useEffect(() => {
     new GLTFLoader().load('./colored_glb.glb', (gltf) => {
       const newModelEntities: ModelEntity[] = [];
       const concaveAdjacencyGraph = buildConcaveAdjacencyGraph();
-      console.log(concaveAdjacencyGraph); // Debugging: Check if it looks right
+      const pockets = detectPockets(concaveAdjacencyGraph);
+      // console.log('Detected Pockets:', pockets);
+
+      const pocketColors = pockets.map(
+        () => `hsl(${Math.random() * 360}, 100%, 50%)`
+      );
+      const entityToColor: Record<string, string> = {};
+      pockets.forEach((pocket, index) => {
+        pocket.forEach((entity) => {
+          entityToColor[entity] = pocketColors[index];
+        });
+      });
+
       gltf.scene.traverse((element) => {
         if (element.type !== 'Mesh') return;
         const meshElement = element as THREE.Mesh;
@@ -66,10 +96,10 @@ export const Model = (): JSX.Element => {
         const rgbString = `${r}-${g}-${b}`;
 
         const entityId = colorMap[rgbString];
-
-        const finalColor = entityId
-          ? `rgb(${r}, ${g}, ${b})`
-          : 'rgb(120, 120, 120)';
+        const finalColor =
+          entityId && entityToColor[entityId] && showPockets
+            ? entityToColor[entityId]
+            : 'rgb(120, 120, 120)';
 
         newModelEntities.push({
           bufferGeometry: meshElement.geometry as THREE.BufferGeometry,
@@ -79,10 +109,13 @@ export const Model = (): JSX.Element => {
 
       setModelEnts(newModelEntities);
     });
-  }, []);
+  }, [showPockets]);
 
   return (
     <div className='canvas-container'>
+      <button onClick={() => setShowPockets(!showPockets)}>
+        {showPockets ? 'Hide Pockets' : 'Show Pockets'}
+      </button>
       <Canvas camera={{ position: [0, 0, 300] }}>
         <ambientLight />
         <OrbitControls makeDefault />
