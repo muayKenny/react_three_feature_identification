@@ -2,7 +2,7 @@
   "name": "feature_identification",
   "version": "0.0.1",
   "scripts": {
-    "start": "webpack serve --open --no-client-overlay",
+    "start": "webpack serve --open --mode development --no-client-overlay",
     "build": "webpack --mode production"
   },
   "dependencies": {
@@ -29,7 +29,7 @@
     "@types/webpack-dev-server": "^4.7.2",
     "babel-loader": "^8.2.5",
     "css-loader": "^6.7.1",
-    "fork-ts-checker-webpack-plugin": "^7.2.11",
+    "fork-ts-checker-webpack-plugin": "^7.3.0",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.4",
     "webpack": "^5.72.1",

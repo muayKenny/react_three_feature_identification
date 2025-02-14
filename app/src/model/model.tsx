@@ -1,19 +1,54 @@
 import './model.css';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from '@react-three/drei';
-import { Canvas } from '@react-three/fiber';
-import { GLTFLoader } from 'three-stdlib';
+import { OrbitControls, Text } from '@react-three/drei';
+import { Canvas, useLoader, Vector3 } from '@react-three/fiber';
 
-interface ModelEntity {
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+
+import type {
+  AdjacencyGraph,
+  EdgeMetadata,
+  ColorMap,
+  GeometryEntity,
+} from './data_types';
+
+interface ModelEntity extends GeometryEntity {
   bufferGeometry: THREE.BufferGeometry;
   color: string;
 }
 
-import colorMap from '../../../data_dump/rgb_id_to_entity_id_map.json';
-import adjacencyGraph from '../../../data_dump/adjacency_graph.json';
-import edgeMetadata from '../../../data_dump/adjacency_graph_edge_metadata.json';
+import adjacencyGraphJson from '../../../data_dump/adjacency_graph.json';
+import edgeMetadataJson from '../../../data_dump/adjacency_graph_edge_metadata.json';
+import colorMapJson from '../../../data_dump/rgb_id_to_entity_id_map.json';
+import entityGeometryJson from '../../../data_dump/entity_geometry_info.json';
+
+const adjacencyGraph: AdjacencyGraph = adjacencyGraphJson as AdjacencyGraph;
+const edgeMetadata: EdgeMetadata = edgeMetadataJson as EdgeMetadata;
+const colorMap: ColorMap = colorMapJson as ColorMap;
+const geometryEntityData: GeometryEntity[] = (entityGeometryJson as any[]).map(
+  (entry) => ({
+    entityType: entry.entityType,
+    entityId: entry.entityId,
+    centerUv: [entry.centerUv[0], entry.centerUv[1]] as [number, number], // ✅ Ensure tuple
+    centerPoint: new THREE.Vector3(
+      entry.centerPoint[0],
+      entry.centerPoint[1],
+      entry.centerPoint[2]
+    ), // ✅ Convert to Vector3
+    centerNormal: new THREE.Vector3(
+      entry.centerNormal[0],
+      entry.centerNormal[1],
+      entry.centerNormal[2]
+    ), // ✅ Convert to Vector3
+    area: entry.area,
+    minRadius: entry.minRadius,
+    minPosRadius: entry.minPosRadius,
+    minNegRadius: entry.minNegRadius,
+    edgeCurveChains: entry.edgeCurveChains, // Assuming this structure is correct
+  })
+);
 
 function buildConcaveAdjacencyGraph(): Record<string, string[]> {
   const concaveGraph: Record<string, string[]> = {};
@@ -25,10 +60,10 @@ function buildConcaveAdjacencyGraph(): Record<string, string[]> {
       const edgeKey1 = `${entityId}-${neighbor}`;
       const edgeKey2 = `${neighbor}-${entityId}`;
 
+      // Only keep neighbors where the edge is concave
       if (
-        (edgeMetadata[edgeKey1] &&
-          edgeMetadata[edgeKey1].includes('concave')) ||
-        (edgeMetadata[edgeKey2] && edgeMetadata[edgeKey2].includes('concave'))
+        (edgeMetadata[edgeKey1] && edgeMetadata[edgeKey1].includes(2)) ||
+        (edgeMetadata[edgeKey2] && edgeMetadata[edgeKey2].includes(2))
       ) {
         concaveGraph[entityId].push(neighbor);
       }
@@ -63,25 +98,19 @@ function detectPockets(concaveGraph: Record<string, string[]>): string[][] {
 }
 
 export const Model = (): JSX.Element => {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const gltf = useLoader(GLTFLoader, '/colored_glb.glb');
+
   const [modelEnts, setModelEnts] = useState<ModelEntity[]>([]);
-  const [showPockets, setShowPockets] = useState(true);
+
+  const [showPockets, setShowPockets] = useState(false);
+  const [showWireframe, setShowWireframe] = useState(true);
 
   useEffect(() => {
-    new GLTFLoader().load('./colored_glb.glb', (gltf) => {
+    gltf.scene.traverse((element) => {
       const newModelEntities: ModelEntity[] = [];
-      const concaveAdjacencyGraph = buildConcaveAdjacencyGraph();
-      const pockets = detectPockets(concaveAdjacencyGraph);
-      // console.log('Detected Pockets:', pockets);
 
-      const pocketColors = pockets.map(
-        () => `hsl(${Math.random() * 360}, 100%, 50%)`
-      );
       const entityToColor: Record<string, string> = {};
-      pockets.forEach((pocket, index) => {
-        pocket.forEach((entity) => {
-          entityToColor[entity] = pocketColors[index];
-        });
-      });
 
       gltf.scene.traverse((element) => {
         if (element.type !== 'Mesh') return;
@@ -96,14 +125,22 @@ export const Model = (): JSX.Element => {
         const rgbString = `${r}-${g}-${b}`;
 
         const entityId = colorMap[rgbString];
+
         const finalColor =
           entityId && entityToColor[entityId] && showPockets
             ? entityToColor[entityId]
             : 'rgb(120, 120, 120)';
 
+        const geometryEntity = geometryEntityData.find(
+          (entity) => entity.entityId == entityId
+        );
+
+        if (!geometryEntity) return;
+
         newModelEntities.push({
           bufferGeometry: meshElement.geometry as THREE.BufferGeometry,
           color: finalColor,
+          ...geometryEntity,
         });
       });
 
@@ -116,13 +153,27 @@ export const Model = (): JSX.Element => {
       <button onClick={() => setShowPockets(!showPockets)}>
         {showPockets ? 'Hide Pockets' : 'Show Pockets'}
       </button>
-      <Canvas camera={{ position: [0, 0, 300] }}>
+      <button onClick={() => setShowWireframe(!showWireframe)}>
+        {showWireframe ? 'Hide Wireframe' : 'Show Wireframe'}
+      </button>
+      <Canvas camera={{ position: [0, 0, 300] as Vector3 }}>
         <ambientLight />
         <OrbitControls makeDefault />
         <group>
           {modelEnts.map((ent, index) => (
-            <mesh geometry={ent.bufferGeometry} key={index}>
-              <meshStandardMaterial color={ent.color} />
+            <mesh geometry={ent.bufferGeometry} key={index} ref={meshRef}>
+              <meshStandardMaterial
+                color={ent.color}
+                wireframe={showWireframe}
+              />
+              <Text
+                key={ent.entityId}
+                position={ent.centerPoint}
+                fontSize={5}
+                color='black'
+              >
+                {ent.entityId}
+              </Text>
             </mesh>
           ))}
         </group>
