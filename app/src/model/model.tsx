@@ -14,9 +14,11 @@ import type {
   GeometryEntity,
 } from './data_types';
 
-interface ModelEntity extends GeometryEntity {
+interface ModelEntity {
   bufferGeometry: THREE.BufferGeometry;
   color: string;
+  geometryEntity: GeometryEntity;
+  centerPoint: THREE.Vector3;
 }
 
 import adjacencyGraphJson from '../../../data_dump/adjacency_graph.json';
@@ -107,41 +109,45 @@ export const Model = (): JSX.Element => {
   const [showWireframe, setShowWireframe] = useState(true);
 
   useEffect(() => {
+    const newModelEntities: ModelEntity[] = [];
+
+    const entityToColor: Record<string, string> = {};
+
     gltf.scene.traverse((element) => {
-      const newModelEntities: ModelEntity[] = [];
+      if (element.type !== 'Mesh') return;
+      const meshElement = element as THREE.Mesh;
 
-      const entityToColor: Record<string, string> = {};
+      const material = meshElement.material as THREE.MeshStandardMaterial;
+      const color = material.color;
 
-      gltf.scene.traverse((element) => {
-        if (element.type !== 'Mesh') return;
-        const meshElement = element as THREE.Mesh;
+      const r = Math.round(color.r * 255);
+      const g = Math.round(color.g * 255);
+      const b = Math.round(color.b * 255);
+      const rgbString = `${r}-${g}-${b}`;
 
-        const material = meshElement.material as THREE.MeshStandardMaterial;
-        const color = material.color;
+      const entityId = colorMap[rgbString];
 
-        const r = Math.round(color.r * 255);
-        const g = Math.round(color.g * 255);
-        const b = Math.round(color.b * 255);
-        const rgbString = `${r}-${g}-${b}`;
+      const finalColor =
+        entityId && entityToColor[entityId] && showPockets
+          ? entityToColor[entityId]
+          : 'rgb(120, 120, 120)';
 
-        const entityId = colorMap[rgbString];
+      const geometryEntity = geometryEntityData.find(
+        (entity) => entity.entityId == entityId
+      );
 
-        const finalColor =
-          entityId && entityToColor[entityId] && showPockets
-            ? entityToColor[entityId]
-            : 'rgb(120, 120, 120)';
+      if (!geometryEntity) return;
 
-        const geometryEntity = geometryEntityData.find(
-          (entity) => entity.entityId == entityId
-        );
+      const centerPoint = computeMeshCenter(meshElement);
 
-        if (!geometryEntity) return;
+      console.log('Mesh face Position:', centerPoint);
+      // console.log('Face Center Point:', geometryEntity.centerPoint);
 
-        newModelEntities.push({
-          bufferGeometry: meshElement.geometry as THREE.BufferGeometry,
-          color: finalColor,
-          ...geometryEntity,
-        });
+      newModelEntities.push({
+        bufferGeometry: meshElement.geometry as THREE.BufferGeometry,
+        color: finalColor,
+        geometryEntity,
+        centerPoint,
       });
 
       setModelEnts(newModelEntities);
@@ -166,13 +172,14 @@ export const Model = (): JSX.Element => {
                 color={ent.color}
                 wireframe={showWireframe}
               />
+
               <Text
-                key={ent.entityId}
+                key={ent.geometryEntity.entityId}
                 position={ent.centerPoint}
                 fontSize={5}
                 color='black'
               >
-                {ent.entityId}
+                {ent.geometryEntity.entityId}
               </Text>
             </mesh>
           ))}
@@ -181,3 +188,55 @@ export const Model = (): JSX.Element => {
     </div>
   );
 };
+
+function computeMeshCenter(mesh: THREE.Mesh): THREE.Vector3 {
+  if (!mesh.geometry) return new THREE.Vector3(0, 0, 0);
+
+  const positions = mesh.geometry.attributes.position.array; // Flat array of XYZ triplets
+  const indices = mesh.geometry.index?.array; // Index buffer for faces
+  if (!indices) {
+    console.warn('No index buffer found in geometry.');
+    return new THREE.Vector3(0, 0, 0);
+  }
+
+  let sum = new THREE.Vector3();
+  let faceCount = 0;
+
+  for (let i = 0; i < indices.length; i += 3) {
+    const i1 = indices[i] * 3;
+    const i2 = indices[i + 1] * 3;
+    const i3 = indices[i + 2] * 3;
+
+    // Get XYZ of each vertex
+    const v1 = new THREE.Vector3(
+      positions[i1],
+      positions[i1 + 1],
+      positions[i1 + 2]
+    );
+    const v2 = new THREE.Vector3(
+      positions[i2],
+      positions[i2 + 1],
+      positions[i2 + 2]
+    );
+    const v3 = new THREE.Vector3(
+      positions[i3],
+      positions[i3 + 1],
+      positions[i3 + 2]
+    );
+
+    // Compute face center (average of three vertices)
+    const faceCenter = new THREE.Vector3()
+      .addVectors(v1, v2)
+      .add(v3)
+      .divideScalar(3);
+
+    // Transform to world space
+    faceCenter.applyMatrix4(mesh.matrixWorld);
+
+    sum.add(faceCenter);
+    faceCount++;
+  }
+
+  if (faceCount === 0) return new THREE.Vector3(0, 0, 0); // Prevent division by zero
+  return sum.divideScalar(faceCount); // Compute the average center
+}
