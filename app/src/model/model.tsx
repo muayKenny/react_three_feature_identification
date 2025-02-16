@@ -2,7 +2,7 @@ import './model.css';
 
 import React, { useState, useRef, useMemo } from 'react';
 import * as THREE from 'three';
-import { OrbitControls, Text } from '@react-three/drei';
+import { FlyControls, OrbitControls, Text } from '@react-three/drei';
 import { Canvas, useLoader, Vector3 } from '@react-three/fiber';
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -51,53 +51,6 @@ const geometryEntityData: GeometryEntity[] = (entityGeometryJson as any[]).map(
     edgeCurveChains: entry.edgeCurveChains, // Assuming this structure is correct
   })
 );
-
-function buildConcaveAdjacencyGraph(): Record<string, string[]> {
-  const concaveGraph: Record<string, string[]> = {};
-
-  for (const entityId in adjacencyGraph) {
-    concaveGraph[entityId] = [];
-
-    for (const neighbor of adjacencyGraph[entityId]) {
-      const edgeKey1 = `${entityId}-${neighbor}`;
-      const edgeKey2 = `${neighbor}-${entityId}`;
-
-      // Only keep neighbors where the edge is concave
-      if (
-        (edgeMetadata[edgeKey1] && edgeMetadata[edgeKey1].includes(2)) ||
-        (edgeMetadata[edgeKey2] && edgeMetadata[edgeKey2].includes(2))
-      ) {
-        concaveGraph[entityId].push(neighbor);
-      }
-    }
-  }
-
-  return concaveGraph;
-}
-
-function detectPockets(concaveGraph: Record<string, string[]>): string[][] {
-  const visited = new Set<string>();
-  const pockets: string[][] = [];
-
-  for (const entity in concaveGraph) {
-    if (!visited.has(entity)) {
-      const queue = [entity];
-      const pocket = [];
-
-      while (queue.length) {
-        const current = queue.shift()!;
-        if (visited.has(current)) continue;
-        visited.add(current);
-        pocket.push(current);
-        queue.push(...concaveGraph[current].filter((n) => !visited.has(n)));
-      }
-
-      pockets.push(pocket);
-    }
-  }
-
-  return pockets;
-}
 
 export const Model = (): JSX.Element => {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -164,6 +117,11 @@ export const Model = (): JSX.Element => {
       <Canvas camera={{ position: [0, 0, 300] as Vector3 }}>
         <ambientLight />
         <OrbitControls makeDefault />
+        {/* <FlyControls
+          movementSpeed={300} // Increase speed (default is usually too slow)
+          rollSpeed={1} // Adjust roll sensitivity
+          dragToLook={true} // Enable mouse drag for look-around
+        /> */}
         <group>
           {modelEnts.map((ent, index) => (
             <mesh geometry={ent.bufferGeometry} key={index} ref={meshRef}>
@@ -239,4 +197,51 @@ function computeMeshCenter(mesh: THREE.Mesh): THREE.Vector3 {
 
   if (faceCount === 0) return new THREE.Vector3(0, 0, 0); // Prevent division by zero
   return sum.divideScalar(faceCount); // Compute the average center
+}
+
+function buildConcaveAdjacencyGraph(): Record<string, string[]> {
+  const concaveGraph: Record<string, string[]> = {};
+
+  for (const entityId in adjacencyGraph) {
+    concaveGraph[entityId] = [];
+
+    for (const neighbor of adjacencyGraph[entityId]) {
+      const edgeKey1 = `${entityId}-${neighbor}`;
+      const edgeKey2 = `${neighbor}-${entityId}`;
+
+      // Only keep neighbors where the edge is concave
+      if (
+        (edgeMetadata[edgeKey1] && edgeMetadata[edgeKey1].includes(2)) ||
+        (edgeMetadata[edgeKey2] && edgeMetadata[edgeKey2].includes(2))
+      ) {
+        concaveGraph[entityId].push(neighbor);
+      }
+    }
+  }
+
+  return concaveGraph;
+}
+
+function detectPockets(concaveGraph: Record<string, string[]>): string[][] {
+  const visited = new Set<string>();
+  const pockets: string[][] = [];
+
+  for (const entity in concaveGraph) {
+    if (!visited.has(entity)) {
+      const queue = [entity];
+      const pocket = [];
+
+      while (queue.length) {
+        const current = queue.shift()!;
+        if (visited.has(current)) continue;
+        visited.add(current);
+        pocket.push(current);
+        queue.push(...concaveGraph[current].filter((n) => !visited.has(n)));
+      }
+
+      pockets.push(pocket);
+    }
+  }
+
+  return pockets;
 }
