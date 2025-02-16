@@ -107,6 +107,7 @@ export const Model = (): JSX.Element => {
 
   const [showPockets, setShowPockets] = useState(false);
   const [showWireframe, setShowWireframe] = useState(true);
+  const [showEntityLabels, setShowEntityLabels] = useState(true);
 
   useEffect(() => {
     const newModelEntities: ModelEntity[] = [];
@@ -162,6 +163,9 @@ export const Model = (): JSX.Element => {
       <button onClick={() => setShowWireframe(!showWireframe)}>
         {showWireframe ? 'Hide Wireframe' : 'Show Wireframe'}
       </button>
+      <button onClick={() => setShowEntityLabels(!showEntityLabels)}>
+        {showEntityLabels ? 'Hide Entity Labels' : 'Show Entity Labels'}
+      </button>
       <Canvas camera={{ position: [0, 0, 300] as Vector3 }}>
         <ambientLight />
         <OrbitControls makeDefault />
@@ -172,15 +176,16 @@ export const Model = (): JSX.Element => {
                 color={ent.color}
                 wireframe={showWireframe}
               />
-
-              <Text
-                key={ent.geometryEntity.entityId}
-                position={ent.centerPoint}
-                fontSize={5}
-                color='black'
-              >
-                {ent.geometryEntity.entityId}
-              </Text>
+              {showEntityLabels && (
+                <Text
+                  key={ent.geometryEntity.entityId}
+                  position={ent.centerPoint}
+                  fontSize={5}
+                  color='black'
+                >
+                  {ent.geometryEntity.entityId}
+                </Text>
+              )}
             </mesh>
           ))}
         </group>
