@@ -1,6 +1,6 @@
 import './model.css';
 
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import * as THREE from 'three';
 import { OrbitControls, Text } from '@react-three/drei';
 import { Canvas, useLoader, Vector3 } from '@react-three/fiber';
@@ -103,23 +103,21 @@ export const Model = (): JSX.Element => {
   const meshRef = useRef<THREE.Mesh>(null);
   const gltf = useLoader(GLTFLoader, '/colored_glb.glb');
 
-  const [modelEnts, setModelEnts] = useState<ModelEntity[]>([]);
-
   const [showPockets, setShowPockets] = useState(false);
   const [showWireframe, setShowWireframe] = useState(true);
   const [showEntityLabels, setShowEntityLabels] = useState(true);
 
-  useEffect(() => {
-    const newModelEntities: ModelEntity[] = [];
+  const modelEnts = useMemo(() => {
+    if (!gltf || !gltf.scene) return []; // Ensure GLTF is loaded
 
-    const entityToColor: Record<string, string> = {};
+    const newModelEntities: ModelEntity[] = [];
 
     gltf.scene.traverse((element) => {
       if (element.type !== 'Mesh') return;
       const meshElement = element as THREE.Mesh;
-
       const material = meshElement.material as THREE.MeshStandardMaterial;
       const color = material.color;
+      const entityToColor: Record<string, string> = {};
 
       const r = Math.round(color.r * 255);
       const g = Math.round(color.g * 255);
@@ -141,19 +139,16 @@ export const Model = (): JSX.Element => {
 
       const centerPoint = computeMeshCenter(meshElement);
 
-      console.log('Mesh face Position:', centerPoint);
-      // console.log('Face Center Point:', geometryEntity.centerPoint);
-
       newModelEntities.push({
         bufferGeometry: meshElement.geometry as THREE.BufferGeometry,
         color: finalColor,
         geometryEntity,
         centerPoint,
       });
-
-      setModelEnts(newModelEntities);
     });
-  }, [showPockets]);
+
+    return newModelEntities;
+  }, [showPockets, gltf]); // Runs again when GLTF is loaded
 
   return (
     <div className='canvas-container'>
