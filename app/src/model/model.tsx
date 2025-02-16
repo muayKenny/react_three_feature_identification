@@ -1,6 +1,6 @@
 import './model.css';
 
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import * as THREE from 'three';
 import { FlyControls, OrbitControls, Text } from '@react-three/drei';
 import { Canvas, useLoader, Vector3 } from '@react-three/fiber';
@@ -14,7 +14,7 @@ import type {
   GeometryEntity,
 } from './data_types';
 
-interface ModelEntity {
+export interface ModelEntity {
   bufferGeometry: THREE.BufferGeometry;
   color: string;
   geometryEntity: GeometryEntity;
@@ -25,6 +25,7 @@ import adjacencyGraphJson from '../../../data_dump/adjacency_graph.json';
 import edgeMetadataJson from '../../../data_dump/adjacency_graph_edge_metadata.json';
 import colorMapJson from '../../../data_dump/rgb_id_to_entity_id_map.json';
 import entityGeometryJson from '../../../data_dump/entity_geometry_info.json';
+import CameraSnapper from './CameraSnapper';
 
 const adjacencyGraph: AdjacencyGraph = adjacencyGraphJson as AdjacencyGraph;
 const edgeMetadata: EdgeMetadata = edgeMetadataJson as EdgeMetadata;
@@ -59,6 +60,7 @@ export const Model = (): JSX.Element => {
   const [showPockets, setShowPockets] = useState(false);
   const [showWireframe, setShowWireframe] = useState(true);
   const [showEntityLabels, setShowEntityLabels] = useState(true);
+  const [targetEntityIndex, setTargetEntityIndex] = useState(0);
 
   const modelEnts = useMemo(() => {
     if (!gltf || !gltf.scene) return []; // Ensure GLTF is loaded
@@ -103,20 +105,66 @@ export const Model = (): JSX.Element => {
     return newModelEntities;
   }, [showPockets, gltf]); // Runs again when GLTF is loaded
 
+  const entityCount = modelEnts.length;
+  const targetEntity = modelEnts[targetEntityIndex] || null;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputId = e.target.value;
+    const foundIndex = modelEnts.findIndex(
+      (ent) => ent.geometryEntity.entityId === inputId
+    );
+    if (foundIndex !== -1) setTargetEntityIndex(foundIndex);
+  };
+
+  const incrementIndex = () => {
+    setTargetEntityIndex((prev) => Math.min(prev + 1, entityCount - 1));
+  };
+
+  const decrementIndex = () => {
+    setTargetEntityIndex((prev) => Math.max(prev - 1, 0));
+  };
+
   return (
     <div className='canvas-container'>
-      <button onClick={() => setShowPockets(!showPockets)}>
-        {showPockets ? 'Hide Pockets' : 'Show Pockets'}
-      </button>
-      <button onClick={() => setShowWireframe(!showWireframe)}>
-        {showWireframe ? 'Hide Wireframe' : 'Show Wireframe'}
-      </button>
-      <button onClick={() => setShowEntityLabels(!showEntityLabels)}>
-        {showEntityLabels ? 'Hide Entity Labels' : 'Show Entity Labels'}
-      </button>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <button onClick={() => setShowPockets(!showPockets)}>
+          {showPockets ? 'Hide Pockets' : 'Show Pockets'}
+        </button>
+        <button onClick={() => setShowWireframe(!showWireframe)}>
+          {showWireframe ? 'Hide Wireframe' : 'Show Wireframe'}
+        </button>
+        <button onClick={() => setShowEntityLabels(!showEntityLabels)}>
+          {showEntityLabels ? 'Hide Entity Labels' : 'Show Entity Labels'}
+        </button>
+        <div>
+          <label>Snap to Entity:</label>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <button onClick={decrementIndex} disabled={targetEntityIndex === 0}>
+              -
+            </button>
+            <input
+              type='text'
+              value={targetEntity ? targetEntity.geometryEntity.entityId : ''}
+              onChange={handleChange}
+              style={{ width: '80px', textAlign: 'center' }}
+            />
+            <button
+              onClick={incrementIndex}
+              disabled={targetEntityIndex === entityCount - 1}
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+
       <Canvas camera={{ position: [0, 0, 300] as Vector3 }}>
         <ambientLight />
         <OrbitControls makeDefault />
+        <CameraSnapper
+          modelEnts={modelEnts}
+          targetEntityIndex={targetEntityIndex}
+        />
         {/* <FlyControls
           movementSpeed={300} // Increase speed (default is usually too slow)
           rollSpeed={1} // Adjust roll sensitivity
