@@ -2,7 +2,7 @@ import './model.css';
 
 import React, { useState, useRef, useMemo, useEffect } from 'react';
 import * as THREE from 'three';
-import { FlyControls, OrbitControls, Text } from '@react-three/drei';
+import { FlyControls, Line, OrbitControls, Text } from '@react-three/drei';
 import { Canvas, useLoader, Vector3 } from '@react-three/fiber';
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -61,6 +61,8 @@ export const Model = (): JSX.Element => {
   const [showPockets, setShowPockets] = useState(false);
   const [showWireframe, setShowWireframe] = useState(true);
   const [showEntityLabels, setShowEntityLabels] = useState(true);
+  const [showNormals, setShowNormals] = useState(false);
+  const [normalLength, setNormalLength] = useState(33);
   const [targetEntityIndex, setTargetEntityIndex] = useState(0);
 
   const modelEnts = useMemo(() => {
@@ -142,6 +144,18 @@ export const Model = (): JSX.Element => {
         <button onClick={() => setShowEntityLabels(!showEntityLabels)}>
           {showEntityLabels ? 'Hide Entity Labels' : 'Show Entity Labels'}
         </button>
+        <button onClick={() => setShowNormals(!showNormals)}>
+          {showNormals ? 'Hide Normals' : 'Show Normals'}
+        </button>
+        <label>Normal Length:</label>
+        <input
+          type='range'
+          min='5'
+          max='100'
+          step='1'
+          value={normalLength}
+          onChange={(e) => setNormalLength(Number(e.target.value))}
+        />
         <div>
           <label>Snap to Entity:</label>
           <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
@@ -189,26 +203,20 @@ export const Model = (): JSX.Element => {
                   {ent.geometryEntity.entityId}
                 </Text>
               )}
-              <line key={`normal-${ent.geometryEntity.entityId}`}>
-                <bufferGeometry>
-                  <bufferAttribute
-                    attach='attributes-position'
-                    array={
-                      new Float32Array([
-                        ent.centerPoint.x,
-                        ent.centerPoint.y,
-                        ent.centerPoint.z,
-                        ent.centerPoint.x + ent.faceNormal.x * 33,
-                        ent.centerPoint.y + ent.faceNormal.y * 33,
-                        ent.centerPoint.z + ent.faceNormal.z * 33,
-                      ])
-                    }
-                    count={2}
-                    itemSize={3}
-                  />
-                </bufferGeometry>
-                <lineBasicMaterial color='red' />
-              </line>
+              {showNormals && (
+                <Line
+                  points={[
+                    [ent.centerPoint.x, ent.centerPoint.y, ent.centerPoint.z],
+                    [
+                      ent.centerPoint.x + ent.faceNormal.x * normalLength,
+                      ent.centerPoint.y + ent.faceNormal.y * normalLength,
+                      ent.centerPoint.z + ent.faceNormal.z * normalLength,
+                    ],
+                  ]}
+                  color='red'
+                  lineWidth={1}
+                />
+              )}
             </mesh>
           ))}
         </group>
