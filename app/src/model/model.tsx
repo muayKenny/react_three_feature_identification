@@ -160,33 +160,6 @@ export const Model = (): JSX.Element => {
     return lines;
   }, [modelEnts, adjacencyGraph]);
 
-  // const adjacencyLines = useMemo(() => {
-  //   const lines: { start: THREE.Vector3; end: THREE.Vector3 }[] = [];
-
-  //   const rootEntity = modelEnts.find(
-  //     (e) => e.geometryEntity.entityId === '30'
-  //   );
-  //   if (!rootEntity) return lines;
-
-  //   const adjacentIds = adjacencyGraph['30'] || [];
-
-  //   adjacentIds.forEach((neighborId) => {
-  //     const neighborEnt = modelEnts.find(
-  //       (e) => e.geometryEntity.entityId === neighborId
-  //     );
-  //     if (!neighborEnt) return;
-
-  //     console.log(`Drawing line from 30 -> ${neighborId}`);
-
-  //     lines.push({
-  //       start: rootEntity.centerPoint,
-  //       end: neighborEnt.centerPoint,
-  //     });
-  //   });
-
-  //   return lines;
-  // }, [modelEnts, adjacencyGraph]);
-
   return (
     <div className='canvas-container'>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
