@@ -23,9 +23,26 @@ const CameraSnapper = ({
     const entity = modelEnts[targetEntityIndex];
     if (!entity) return;
 
+    // const targetPosition = entity.centerPoint
+    //   .clone()
+    //   .add(new THREE.Vector3(0, 0, 30)); // Offset to prevent clipping
+    const [nx, ny, nz] = entity.geometryEntity.centerNormal as unknown as [
+      number,
+      number,
+      number
+    ]; // ✅ Ensure it's a tuple
+    const normal = new THREE.Vector3(nx, ny, nz);
+    // Compute a dynamic distance based on bounding sphere radius (fallback to 50)
+    const boundingSphere = entity.bufferGeometry.boundingSphere;
+    const defaultDistance = 100;
+    const dynamicDistance = boundingSphere
+      ? boundingSphere.radius * 2
+      : defaultDistance;
+
+    // Offset the camera along the normal direction
     const targetPosition = entity.centerPoint
       .clone()
-      .add(new THREE.Vector3(0, 0, 30)); // Offset to prevent clipping
+      .add(new THREE.Vector3(0, 100, 0));
 
     let frameId: number;
     const animate = () => {

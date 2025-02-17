@@ -19,6 +19,7 @@ export interface ModelEntity {
   color: string;
   geometryEntity: GeometryEntity;
   centerPoint: THREE.Vector3;
+  faceNormal: THREE.Vector3;
 }
 
 import adjacencyGraphJson from '../../../data_dump/adjacency_graph.json';
@@ -69,6 +70,7 @@ export const Model = (): JSX.Element => {
 
     gltf.scene.traverse((element) => {
       if (element.type !== 'Mesh') return;
+      console.log(element);
       const meshElement = element as THREE.Mesh;
       const material = meshElement.material as THREE.MeshStandardMaterial;
       const color = material.color;
@@ -80,6 +82,7 @@ export const Model = (): JSX.Element => {
       const rgbString = `${r}-${g}-${b}`;
 
       const entityId = colorMap[rgbString];
+      console.log(entityId);
 
       const finalColor =
         entityId && entityToColor[entityId] && showPockets
@@ -94,16 +97,19 @@ export const Model = (): JSX.Element => {
 
       const centerPoint = computeMeshCenter(meshElement);
 
+      const faceNormal = computeFaceNormal(meshElement);
+
       newModelEntities.push({
         bufferGeometry: meshElement.geometry as THREE.BufferGeometry,
         color: finalColor,
         geometryEntity,
         centerPoint,
+        faceNormal,
       });
     });
 
     return newModelEntities;
-  }, [showPockets, gltf]); // Runs again when GLTF is loaded
+  }, [showPockets, gltf]);
 
   const entityCount = modelEnts.length;
   const targetEntity = modelEnts[targetEntityIndex] || null;
@@ -165,11 +171,7 @@ export const Model = (): JSX.Element => {
           modelEnts={modelEnts}
           targetEntityIndex={targetEntityIndex}
         />
-        {/* <FlyControls
-          movementSpeed={300} // Increase speed (default is usually too slow)
-          rollSpeed={1} // Adjust roll sensitivity
-          dragToLook={true} // Enable mouse drag for look-around
-        /> */}
+
         <group>
           {modelEnts.map((ent, index) => (
             <mesh geometry={ent.bufferGeometry} key={index} ref={meshRef}>
@@ -187,6 +189,26 @@ export const Model = (): JSX.Element => {
                   {ent.geometryEntity.entityId}
                 </Text>
               )}
+              <line key={`normal-${ent.geometryEntity.entityId}`}>
+                <bufferGeometry>
+                  <bufferAttribute
+                    attach='attributes-position'
+                    array={
+                      new Float32Array([
+                        ent.centerPoint.x,
+                        ent.centerPoint.y,
+                        ent.centerPoint.z,
+                        ent.centerPoint.x + ent.faceNormal.x * 33,
+                        ent.centerPoint.y + ent.faceNormal.y * 33,
+                        ent.centerPoint.z + ent.faceNormal.z * 33,
+                      ])
+                    }
+                    count={2}
+                    itemSize={3}
+                  />
+                </bufferGeometry>
+                <lineBasicMaterial color='red' />
+              </line>
             </mesh>
           ))}
         </group>
@@ -292,4 +314,60 @@ function detectPockets(concaveGraph: Record<string, string[]>): string[][] {
   }
 
   return pockets;
+}
+
+function computeFaceNormal(mesh: THREE.Mesh): THREE.Vector3 {
+  if (!mesh.geometry) return new THREE.Vector3(0, 0, 0);
+
+  const positions = mesh.geometry.attributes.position.array; // Vertex positions
+  const indices = mesh.geometry.index?.array; // Face indices
+
+  if (!indices) {
+    console.warn('No index buffer found in geometry.');
+    return new THREE.Vector3(0, 0, 0);
+  }
+
+  let normalSum = new THREE.Vector3();
+  let faceCount = 0;
+
+  for (let i = 0; i < indices.length; i += 3) {
+    const i1 = indices[i] * 3;
+    const i2 = indices[i + 1] * 3;
+    const i3 = indices[i + 2] * 3;
+
+    // Extract the three vertices of the face
+    const v1 = new THREE.Vector3(
+      positions[i1],
+      positions[i1 + 1],
+      positions[i1 + 2]
+    );
+    const v2 = new THREE.Vector3(
+      positions[i2],
+      positions[i2 + 1],
+      positions[i2 + 2]
+    );
+    const v3 = new THREE.Vector3(
+      positions[i3],
+      positions[i3 + 1],
+      positions[i3 + 2]
+    );
+
+    // Compute two edge vectors
+    const edge1 = new THREE.Vector3().subVectors(v2, v1);
+    const edge2 = new THREE.Vector3().subVectors(v3, v1);
+
+    // Compute the face normal using cross-product
+    const faceNormal = new THREE.Vector3()
+      .crossVectors(edge1, edge2)
+      .normalize();
+
+    // Transform normal to world space
+    faceNormal.applyMatrix4(mesh.matrixWorld).normalize();
+
+    normalSum.add(faceNormal);
+    faceCount++;
+  }
+
+  if (faceCount === 0) return new THREE.Vector3(0, 0, 0);
+  return normalSum.divideScalar(faceCount); // Average normal
 }
