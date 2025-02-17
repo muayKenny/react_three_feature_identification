@@ -20,6 +20,7 @@ export interface ModelEntity {
   geometryEntity: GeometryEntity;
   centerPoint: THREE.Vector3;
   faceNormal: THREE.Vector3;
+  originalColor: string;
 }
 
 import adjacencyGraphJson from '../../../data_dump/adjacency_graph.json';
@@ -59,9 +60,11 @@ export const Model = (): JSX.Element => {
   const gltf = useLoader(GLTFLoader, '/colored_glb.glb');
 
   const [showPockets, setShowPockets] = useState(false);
+  const [useStandardColors, setUseStandardColors] = useState(true);
   const [showWireframe, setShowWireframe] = useState(true);
   const [showEntityLabels, setShowEntityLabels] = useState(true);
   const [showNormals, setShowNormals] = useState(false);
+  const [showAdjacencyLines, setShowAdjacencyLines] = useState(false);
   const [normalLength, setNormalLength] = useState(33);
   const [targetEntityIndex, setTargetEntityIndex] = useState(0);
 
@@ -84,12 +87,13 @@ export const Model = (): JSX.Element => {
       const rgbString = `${r}-${g}-${b}`;
 
       const entityId = colorMap[rgbString];
-      console.log(entityId);
 
       const finalColor =
         entityId && entityToColor[entityId] && showPockets
           ? entityToColor[entityId]
           : 'rgb(120, 120, 120)';
+
+      const originalColor = `rgb(${r},${g},${b})`;
 
       const geometryEntity = geometryEntityData.find(
         (entity) => entity.entityId == entityId
@@ -107,6 +111,7 @@ export const Model = (): JSX.Element => {
         geometryEntity,
         centerPoint,
         faceNormal,
+        originalColor,
       });
     });
 
@@ -132,9 +137,62 @@ export const Model = (): JSX.Element => {
     setTargetEntityIndex((prev) => Math.max(prev - 1, 0));
   };
 
+  const adjacencyLines = useMemo(() => {
+    const lines: { start: THREE.Vector3; end: THREE.Vector3 }[] = [];
+
+    modelEnts.forEach((ent) => {
+      const entityId = ent.geometryEntity.entityId;
+      const adjacentIds = adjacencyGraph[entityId] || [];
+
+      adjacentIds.forEach((neighborId) => {
+        const neighborEnt = modelEnts.find(
+          (e) => e.geometryEntity.entityId === neighborId
+        );
+        if (!neighborEnt) return;
+
+        lines.push({
+          start: ent.centerPoint,
+          end: neighborEnt.centerPoint,
+        });
+      });
+    });
+
+    return lines;
+  }, [modelEnts, adjacencyGraph]);
+
+  // const adjacencyLines = useMemo(() => {
+  //   const lines: { start: THREE.Vector3; end: THREE.Vector3 }[] = [];
+
+  //   const rootEntity = modelEnts.find(
+  //     (e) => e.geometryEntity.entityId === '30'
+  //   );
+  //   if (!rootEntity) return lines;
+
+  //   const adjacentIds = adjacencyGraph['30'] || [];
+
+  //   adjacentIds.forEach((neighborId) => {
+  //     const neighborEnt = modelEnts.find(
+  //       (e) => e.geometryEntity.entityId === neighborId
+  //     );
+  //     if (!neighborEnt) return;
+
+  //     console.log(`Drawing line from 30 -> ${neighborId}`);
+
+  //     lines.push({
+  //       start: rootEntity.centerPoint,
+  //       end: neighborEnt.centerPoint,
+  //     });
+  //   });
+
+  //   return lines;
+  // }, [modelEnts, adjacencyGraph]);
+
   return (
     <div className='canvas-container'>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <button onClick={() => setUseStandardColors(!useStandardColors)}>
+          {useStandardColors ? 'Show Analysis Colors' : 'Show Standard Colors'}
+        </button>
         <button onClick={() => setShowPockets(!showPockets)}>
           {showPockets ? 'Hide Pockets' : 'Show Pockets'}
         </button>
@@ -143,6 +201,9 @@ export const Model = (): JSX.Element => {
         </button>
         <button onClick={() => setShowEntityLabels(!showEntityLabels)}>
           {showEntityLabels ? 'Hide Entity Labels' : 'Show Entity Labels'}
+        </button>
+        <button onClick={() => setShowAdjacencyLines(!showAdjacencyLines)}>
+          {showAdjacencyLines ? 'Hide Adjacency Lines' : 'Show Adjacency Lines'}
         </button>
         <button onClick={() => setShowNormals(!showNormals)}>
           {showNormals ? 'Hide Normals' : 'Show Normals'}
@@ -190,7 +251,7 @@ export const Model = (): JSX.Element => {
           {modelEnts.map((ent, index) => (
             <mesh geometry={ent.bufferGeometry} key={index} ref={meshRef}>
               <meshStandardMaterial
-                color={ent.color}
+                color={useStandardColors ? ent.originalColor : ent.color}
                 wireframe={showWireframe}
               />
               {showEntityLabels && (
@@ -214,11 +275,20 @@ export const Model = (): JSX.Element => {
                     ],
                   ]}
                   color='red'
-                  lineWidth={1}
+                  lineWidth={0.75}
                 />
               )}
             </mesh>
           ))}
+          {showAdjacencyLines &&
+            adjacencyLines.map((line, index) => (
+              <Line
+                key={index}
+                points={[line.start.toArray(), line.end.toArray()]}
+                color='blue'
+                lineWidth={0.5}
+              />
+            ))}
         </group>
       </Canvas>
     </div>
